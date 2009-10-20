@@ -6,6 +6,7 @@ URL: http://klub.com.pl/dhcpv6/dibbler
 Source: dibbler-0.7.3.tar.gz
 License: GPL
 Group: System/Servers
+BuildRequires:  tetex-latex
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
