@@ -1,11 +1,13 @@
 Summary: Dibbler - a portable DHCPv6
 Name: dibbler
 Version: 0.7.3
-Release:        %mkrel 1
+Release:        %mkrel 2
 URL: http://klub.com.pl/dhcpv6/dibbler
 Source: dibbler-0.7.3.tar.gz
 License: GPL
 Group: System/Servers
+Source1: dibbler-client
+Source2: dibbler-server
 BuildRequires:  tetex-latex
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
@@ -41,12 +43,15 @@ install -m 644 doc/man/dibbler-server.8 $RPM_BUILD_ROOT/usr/share/man/man8
 install -m 644 doc/man/dibbler-relay.8  $RPM_BUILD_ROOT/usr/share/man/man8
 mkdir -p $RPM_BUILD_ROOT/etc/dibbler
 mkdir -p $RPM_BUILD_ROOT/var/lib/dibbler/
+mkdir -p $RPM_BUILD_ROOT/etc/init.d/
 
 install -m 644 client.conf $RPM_BUILD_ROOT/etc/dibbler
 install -m 644 client-stateless.conf $RPM_BUILD_ROOT/etc/dibbler
 install -m 644 server.conf $RPM_BUILD_ROOT/etc/dibbler
 install -m 644 server-stateless.conf $RPM_BUILD_ROOT/etc/dibbler
 install -m 644 relay.conf $RPM_BUILD_ROOT/etc/dibbler
+install -m 700 %{SOURCE1} %{buildroot}/etc/init.d/
+install -m 700 %{SOURCE2} %{buildroot}/etc/init.d/
 
 %clean
 #rm -rf $RPM_BUILD_ROOT
@@ -58,8 +63,10 @@ install -m 644 relay.conf $RPM_BUILD_ROOT/etc/dibbler
 /usr/sbin/dibbler-client
 /usr/sbin/dibbler-relay
 /usr/share/man/man8/*
+/var/lib/dibbler/
 /etc/dibbler/client.conf
 /etc/dibbler/client-stateless.conf
 /etc/dibbler/server.conf
 /etc/dibbler/server-stateless.conf
 /etc/dibbler/relay.conf
+/etc/init.d/*
