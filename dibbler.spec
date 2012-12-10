@@ -1,14 +1,15 @@
 Summary: Dibbler - a portable DHCPv6
 Name: dibbler
-Version: 0.8.0
-Release: 1
+Version: 0.7.3
+Release:        %mkrel 3
 URL: http://klub.com.pl/dhcpv6/dibbler
+Source: dibbler-0.7.3.tar.gz
 License: GPL
 Group: System/Servers
-Source: %{name}-%{version}-src.tar.gz 
 Source1: dibbler-client
 Source2: dibbler-server
 BuildRequires:  tetex-latex
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 It supports both stateful (i.e. IPv6 address granting) and stateless 
@@ -22,44 +23,66 @@ configured in your network. All infrastructure elements are
 provided: server, client and relay.
 
 %prep
-%setup -q
+%setup
 
 %build
-%make client server relay doc
+make client server relay doc
 
 %install
-mkdir -p %{buildroot}/%{_sbindir}
-install -m 755 dibbler-server %{buildroot}/%{_sbindir}
-install -m 755 dibbler-client %{buildroot}/%{_sbindir}
-install -m 755 dibbler-relay  %{buildroot}/%{_sbindir}
+#rm -rf $RPM_BUILD_ROOT
+mkdir -p $RPM_BUILD_ROOT/usr/sbin
+install -m 755 dibbler-server $RPM_BUILD_ROOT/usr/sbin/
+install -m 755 dibbler-client $RPM_BUILD_ROOT/usr/sbin/
+install -m 755 dibbler-relay  $RPM_BUILD_ROOT/usr/sbin/
+#mkdir -p $RPM_BUILD_ROOT/usr/share/doc/dibbler
+#%{__install} -m 644 doc/dibbler-user.pdf $RPM_BUILD_ROOT/usr/share/doc/dibbler
+#%{__install} -m 644 doc/dibbler-devel.pdf $RPM_BUILD_ROOT/usr/share/doc/dibbler
+mkdir -p $RPM_BUILD_ROOT/usr/share/man/man8
+install -m 644 doc/man/dibbler-client.8 $RPM_BUILD_ROOT/usr/share/man/man8
+install -m 644 doc/man/dibbler-server.8 $RPM_BUILD_ROOT/usr/share/man/man8
+install -m 644 doc/man/dibbler-relay.8  $RPM_BUILD_ROOT/usr/share/man/man8
+mkdir -p $RPM_BUILD_ROOT/etc/dibbler
+mkdir -p $RPM_BUILD_ROOT/var/lib/dibbler/
+mkdir -p $RPM_BUILD_ROOT/etc/init.d/
 
-mkdir -p %{buildroot}/%{_datadir}/man/man8
-install -m 644 doc/man/dibbler-client.8 %{buildroot}/%{_datadir}/man/man8
-install -m 644 doc/man/dibbler-server.8 %{buildroot}/%{_datadir}/man/man8
-install -m 644 doc/man/dibbler-relay.8  %{buildroot}/%{_datadir}/man/man8
-mkdir -p %{buildroot}/%{_sysconfdir}/dibbler
-mkdir -p %{buildroot}/var/lib/dibbler/
-mkdir -p %{buildroot}/%{_sysconfdir}/init.d/
-
-install -m 644 client.conf %{buildroot}/%{_sysconfdir}/dibbler
-install -m 644 client-stateless.conf %{buildroot}/%{_sysconfdir}/dibbler
-install -m 644 server.conf %{buildroot}/%{_sysconfdir}/dibbler
-install -m 644 server-stateless.conf %{buildroot}/%{_sysconfdir}/dibbler
-install -m 644 relay.conf %{buildroot}/%{_sysconfdir}/dibbler
+install -m 644 client.conf $RPM_BUILD_ROOT/etc/dibbler
+install -m 644 client-stateless.conf $RPM_BUILD_ROOT/etc/dibbler
+install -m 644 server.conf $RPM_BUILD_ROOT/etc/dibbler
+install -m 644 server-stateless.conf $RPM_BUILD_ROOT/etc/dibbler
+install -m 644 relay.conf $RPM_BUILD_ROOT/etc/dibbler
 install -m 700 %{SOURCE1} %{buildroot}/etc/init.d/
 install -m 700 %{SOURCE2} %{buildroot}/etc/init.d/
+
+%clean
+#rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
 %doc CHANGELOG LICENSE RELNOTES doc/dibbler-user.pdf doc/dibbler-devel.pdf
-%{_sbindir}/dibbler-server
-%{_sbindir}/dibbler-client
-%{_sbindir}/dibbler-relay
-%{_datadir}/man/man8/*
+/usr/sbin/dibbler-server
+/usr/sbin/dibbler-client
+/usr/sbin/dibbler-relay
+/usr/share/man/man8/*
 /var/lib/dibbler/
-%{_sysconfdir}/dibbler/client.conf
-%{_sysconfdir}/dibbler/client-stateless.conf
-%{_sysconfdir}/dibbler/server.conf
-%{_sysconfdir}/dibbler/server-stateless.conf
-%{_sysconfdir}/dibbler/relay.conf
-%{_sysconfdir}/init.d/*
+/etc/dibbler/client.conf
+/etc/dibbler/client-stateless.conf
+/etc/dibbler/server.conf
+/etc/dibbler/server-stateless.conf
+/etc/dibbler/relay.conf
+/etc/init.d/*
+
+
+%changelog
+* Thu Dec 09 2010 Oden Eriksson <oeriksson@mandriva.com> 0.7.3-3mdv2011.0
++ Revision: 617612
+- the mass rebuild of 2010.0 packages
+
+* Thu Oct 22 2009 Vincent Guardiola <vguardiola@mandriva.com> 0.7.3-2mdv2010.0
++ Revision: 458897
+- Add initscript Client and Sever
+
+* Tue Oct 20 2009 Anne Nicolas <ennael@mandriva.org> 0.7.3-1mdv2010.0
++ Revision: 458431
+- add build require (V.Guardiola)
+- import dibbler
+
