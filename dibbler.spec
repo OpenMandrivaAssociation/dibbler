@@ -1,4 +1,4 @@
-Summary: Dibbler - a portable DHCPv6
+Summary: - a portable DHCPv6
 Name: dibbler
 Version: 0.7.3
 Release:        %mkrel 3
