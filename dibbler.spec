@@ -1,7 +1,7 @@
-Summary: - a portable DHCPv6
+Summary: A portable DHCPv6
 Name: dibbler
 Version: 0.7.3
-Release:        %mkrel 3
+Release:        4
 URL: http://klub.com.pl/dhcpv6/dibbler
 Source: dibbler-0.7.3.tar.gz
 License: GPL
@@ -9,7 +9,6 @@ Group: System/Servers
 Source1: dibbler-client
 Source2: dibbler-server
 BuildRequires:  tetex-latex
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 It supports both stateful (i.e. IPv6 address granting) and stateless 
@@ -30,26 +29,26 @@ make client server relay doc
 
 %install
 #rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT/usr/sbin
-install -m 755 dibbler-server $RPM_BUILD_ROOT/usr/sbin/
-install -m 755 dibbler-client $RPM_BUILD_ROOT/usr/sbin/
-install -m 755 dibbler-relay  $RPM_BUILD_ROOT/usr/sbin/
+mkdir -p %{buildroot}/usr/sbin
+install -m 755 dibbler-server %{buildroot}/usr/sbin/
+install -m 755 dibbler-client %{buildroot}/usr/sbin/
+install -m 755 dibbler-relay  %{buildroot}/usr/sbin/
 #mkdir -p $RPM_BUILD_ROOT/usr/share/doc/dibbler
 #%{__install} -m 644 doc/dibbler-user.pdf $RPM_BUILD_ROOT/usr/share/doc/dibbler
 #%{__install} -m 644 doc/dibbler-devel.pdf $RPM_BUILD_ROOT/usr/share/doc/dibbler
-mkdir -p $RPM_BUILD_ROOT/usr/share/man/man8
-install -m 644 doc/man/dibbler-client.8 $RPM_BUILD_ROOT/usr/share/man/man8
-install -m 644 doc/man/dibbler-server.8 $RPM_BUILD_ROOT/usr/share/man/man8
-install -m 644 doc/man/dibbler-relay.8  $RPM_BUILD_ROOT/usr/share/man/man8
-mkdir -p $RPM_BUILD_ROOT/etc/dibbler
-mkdir -p $RPM_BUILD_ROOT/var/lib/dibbler/
-mkdir -p $RPM_BUILD_ROOT/etc/init.d/
+mkdir -p %{buildroot}/usr/share/man/man8
+install -m 644 doc/man/dibbler-client.8 %{buildroot}/usr/share/man/man8
+install -m 644 doc/man/dibbler-server.8 %{buildroot}/usr/share/man/man8
+install -m 644 doc/man/dibbler-relay.8  %{buildroot}/usr/share/man/man8
+mkdir -p %{buildroot}/etc/dibbler
+mkdir -p %{buildroot}/var/lib/dibbler/
+mkdir -p %{buildroot}/etc/init.d/
 
-install -m 644 client.conf $RPM_BUILD_ROOT/etc/dibbler
-install -m 644 client-stateless.conf $RPM_BUILD_ROOT/etc/dibbler
-install -m 644 server.conf $RPM_BUILD_ROOT/etc/dibbler
-install -m 644 server-stateless.conf $RPM_BUILD_ROOT/etc/dibbler
-install -m 644 relay.conf $RPM_BUILD_ROOT/etc/dibbler
+install -m 644 client.conf %{buildroot}/etc/dibbler
+install -m 644 client-stateless.conf %{buildroot}/etc/dibbler
+install -m 644 server.conf %{buildroot}/etc/dibbler
+install -m 644 server-stateless.conf %{buildroot}/etc/dibbler
+install -m 644 relay.conf %{buildroot}/etc/dibbler
 install -m 700 %{SOURCE1} %{buildroot}/etc/init.d/
 install -m 700 %{SOURCE2} %{buildroot}/etc/init.d/
 
@@ -57,7 +56,6 @@ install -m 700 %{SOURCE2} %{buildroot}/etc/init.d/
 #rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)
 %doc CHANGELOG LICENSE RELNOTES doc/dibbler-user.pdf doc/dibbler-devel.pdf
 /usr/sbin/dibbler-server
 /usr/sbin/dibbler-client
