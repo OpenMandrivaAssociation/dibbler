@@ -8,6 +8,7 @@ License: GPL
 Group: System/Servers
 Source1: dibbler-client
 Source2: dibbler-server
+BuildRequires:	make
 BuildRequires:  tetex-latex
 
 %description
